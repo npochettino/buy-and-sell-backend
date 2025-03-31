@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import Hapi from '@hapi/hapi'
 import * as admin from 'firebase-admin'
 import routes from './routes'
 import { db } from './database'
 import credentials from '../credentials.json'
+import inert from '@hapi/inert';
 
 admin.initializeApp({
     credential: admin.credential.cert(credentials)
@@ -12,18 +15,20 @@ let server;
 
 const start = async () => {
     server = Hapi.server({
-        port: 8000,
-        host: 'localhost',
+        port: 8080,
+        host: '0.0.0.0',
         routes: {
             cors: {
-                origin: ['*'], // ✅ Allow all origins (change to specific origin in production)
+                origin: ['*'],
                 headers: ['Accept', 'Content-Type', 'Authorization', 'authtoken'],
                 exposedHeaders: ['Authorization'],
-                credentials: true, // ✅ Allow cookies & credentials
+                credentials: true,
             },
         },
     })
 
+    await server.register(inert);
+    
     routes.forEach(route => server.route(route))
 
     db.connect();

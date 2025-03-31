@@ -1,0 +1,12 @@
+runtime: nodejs
+env: flex
+runtime_config:
+      operating_system: "ubuntu22"
+beta_settings: 
+  cloud_sql_instances: buy-and-sell-f5bfa:us-central1:buy-and-sell-db
+env_variables:
+  DB_USER: hapi-server
+  DB_PASS: abc123!
+  DB_NAME: buy-and-sell
+  DB_SOCKET: /cloudsql/buy-and-sell-f5bfa:us-central1:buy-and-sell-db
+  DB_HOST: /cloudsql/buy-and-sell-f5bfa:us-central1:buy-and-sell-db
